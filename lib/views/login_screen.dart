@@ -32,11 +32,12 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: Colors.amber,
         elevation: 0,
         title: Text(
-          "Great Coffee",
+          "SwiftDrop",
           style: TextStyle(color: const Color.fromARGB(255, 50, 63, 6)),
         ),
         centerTitle: true,
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/logog.jpg', height: 200, fit: BoxFit.cover),
+              Image.asset('assets/image.jpeg', height: 200, fit: BoxFit.cover),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -65,6 +66,8 @@ class _LoginPageState extends State<LoginPage> {
                   prefixIcon: Icon(Icons.person),
                 ),
               ),
+
+
               SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -155,6 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text("Forgot password?"),

@@ -53,7 +53,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             iconColor: AppTheme.primary,
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text(
-                '34 Maple Drive, Apt 4B',
+                'Heri Homes',
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 15,
@@ -62,7 +62,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
               const SizedBox(height: 2),
               const Text(
-                'Springfield, IL 62701',
+                'Imani Drive',
                 style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
               ),
               const SizedBox(height: 10),

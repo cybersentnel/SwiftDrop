@@ -251,11 +251,6 @@ class AppDivider extends StatelessWidget {
   }
 }
 
-
-
-
-
-
 class _MenuItemTile extends StatelessWidget {
   final MenuItem item;
   final int quantity;

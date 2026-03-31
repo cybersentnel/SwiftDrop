@@ -106,7 +106,7 @@ class _BrowseTab extends StatelessWidget {
             GestureDetector(
               onTap: () {},
               child: const Row(children: [
-                Text('Daystar Arthi River', style: TextStyle(
+                Text('Daystar Athi River', style: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
                 SizedBox(width: 4),
                 Icon(Icons.keyboard_arrow_down, size: 18, color: AppTheme.primary),
@@ -413,4 +413,3 @@ class CategoryPill extends StatelessWidget {
     );
   }
 }
-

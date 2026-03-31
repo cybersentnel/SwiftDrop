@@ -58,7 +58,6 @@ class _ActiveDeliveryScreenState extends State<ActiveDeliveryScreen> {
               child: CustomPaint(painter: _MapPainter(), child: Container()),
             ),
 
-            // Phase marker
             Center(
               child: Column(mainAxisSize: MainAxisSize.min, children: [
                 Container(
@@ -90,7 +89,6 @@ class _ActiveDeliveryScreenState extends State<ActiveDeliveryScreen> {
               ]),
             ),
 
-            // Back button
             Positioned(
               top: MediaQuery.of(context).padding.top + 8,
               left: 16,
@@ -108,7 +106,6 @@ class _ActiveDeliveryScreenState extends State<ActiveDeliveryScreen> {
               ),
             ),
 
-            // Address chip
             Positioned(
               top: MediaQuery.of(context).padding.top + 8,
               right: 16,
@@ -138,7 +135,6 @@ class _ActiveDeliveryScreenState extends State<ActiveDeliveryScreen> {
           ]),
         ),
 
-        // Bottom panel
         Expanded(
           flex: 5,
           child: Container(
@@ -148,7 +144,7 @@ class _ActiveDeliveryScreenState extends State<ActiveDeliveryScreen> {
             ),
             padding: const EdgeInsets.all(20),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // Phase stepper
+            
               Row(
                 children: List.generate(_phases.length * 2 - 1, (i) {
                   if (i.isOdd) {
@@ -177,7 +173,6 @@ class _ActiveDeliveryScreenState extends State<ActiveDeliveryScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Current task
               Row(children: [
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -216,7 +211,6 @@ class _ActiveDeliveryScreenState extends State<ActiveDeliveryScreen> {
               ]),
               const SizedBox(height: 18),
 
-              // Order items
               if (_phase < 2) ...[
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -262,8 +256,6 @@ class _ActiveDeliveryScreenState extends State<ActiveDeliveryScreen> {
                 ),
                 const SizedBox(height: 14),
               ],
-
-              // Contact buttons (phase 1 only)
               if (_phase == 1) ...[
                 Row(children: [
                   Expanded(

@@ -160,7 +160,7 @@ class _OrdersTab extends StatelessWidget {
         ],
       ),
 
-      // Status banner
+    
       SliverToBoxAdapter(
         child: Container(
           margin: const EdgeInsets.all(16),
@@ -273,7 +273,6 @@ class _OrdersTab extends StatelessWidget {
   }
 }
 
-// ── Driver order card ─────────────────────────────────────
 class _DriverOrderCard extends StatelessWidget {
   final DriverOrder order;
   final VoidCallback onAccept, onDecline;
@@ -311,7 +310,6 @@ class _DriverOrderCard extends StatelessWidget {
             ]),
             const SizedBox(height: 12),
 
-            // Route
             Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Column(children: [
                 Container(
@@ -386,7 +384,6 @@ class _DriverOrderCard extends StatelessWidget {
           ]),
         ),
 
-        // Accept / Decline
         Container(
           decoration: const BoxDecoration(
             border: Border(top: BorderSide(color: AppTheme.border)),
