@@ -1,23 +1,30 @@
-import 'package:get/get.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-class LoginController extends GetxController {
-  // ignore: prefer_typing_uninitialized_variables
-  var username;
-  // ignore: prefer_typing_uninitialized_variables
-  var password;
-  var isPassVisible = false.obs;
+class LoginController {
+  // Emulator:   http://10.0.2.2/swiftdrop
+  // Real phone: http://YOUR_PC_IP/swiftdrop
+  static const String baseUrl = 'http://10.0.2.2/swiftdrop';
 
-  bool login(String user, String pass) {
-    username = user;
-    password = pass;
-    if (username == "admin" && password == "12345") {
-      return true;
-    } else {
-      return false;
+  Future<Map<String, dynamic>> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/login.php'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email':    email.trim(),
+          'password': password.trim(),
+        }),
+      );
+      return jsonDecode(response.body);
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Could not connect to server. Make sure XAMPP is running.',
+      };
     }
-  }
-
-  togglePassword() {
-    isPassVisible.value = !isPassVisible.value;
   }
 }
