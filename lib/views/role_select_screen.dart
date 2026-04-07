@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
-import 'package:flutter_mekitakizi/views/home_screen.dart';
-import 'package:flutter_mekitakizi/driver/driver_home_screen.dart';
+import 'package:flutter_mekitakizi/auth/login_screen.dart';
 
 class RoleSelectScreen extends StatelessWidget {
   const RoleSelectScreen({super.key});
@@ -66,9 +66,10 @@ class RoleSelectScreen extends StatelessWidget {
                 subtitle: 'Order food and packages delivered to your door step',
                 gradient: const [Color(0xFF1E1610), Color(0xFF2A1A0E)],
                 accentColor: AppTheme.primary,
-                onTap: () => Navigator.pushReplacement(
+                onTap: () => 
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
+                  MaterialPageRoute(builder: (_) => LoginScreen(role: "customer")),
                 ),
               ),
 
@@ -83,7 +84,7 @@ class RoleSelectScreen extends StatelessWidget {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DriverHomeScreen(),
+                    builder: (context) => LoginScreen(role: "driver"),
                   ),
                 ),
               ),

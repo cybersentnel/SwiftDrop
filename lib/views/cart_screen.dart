@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
 import 'package:flutter_mekitakizi/core/constants/app_constants.dart';
 import 'package:flutter_mekitakizi/views/checkout_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartScreen extends StatefulWidget {
   final List<CartItem> cartItems;
@@ -23,11 +24,33 @@ class _CartScreenState extends State<CartScreen> {
   final TextEditingController _promoCtrl = TextEditingController();
   String? _appliedPromo;
   bool _promoError = false;
+  String? address;
 
-  double get _subtotal => widget.cartItems.fold(0.0, (s, i) => s + i.total);
-  double get _deliveryFee => 1.99;
-  double get _discount => _appliedPromo != null ? _subtotal * 0.1 : 0;
-  double get _total => _subtotal + _deliveryFee - _discount;
+  @override
+  void initState() {
+    super.initState();
+    _loadAddress();
+  }
+
+  Future<void> _loadAddress() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      address = prefs.getString('address') ?? address; 
+    });
+  }
+  Future<void> saveAddress(String newAddress) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('address', newAddress);
+    setState(() {
+      address = newAddress;
+    });
+  }
+
+
+  int get _subtotal => widget.cartItems.fold(0, (s, i) => s + i.total.toInt());
+  int get _deliveryFee => 100; // KSh 100 delivery fee
+  int get _discount => _appliedPromo != null ? (_subtotal * 0.1).toInt() : 0;
+  int get _total => _subtotal + _deliveryFee - _discount;
 
   void _applyPromo() {
     final code = _promoCtrl.text.trim().toUpperCase();
@@ -97,14 +120,9 @@ class _CartScreenState extends State<CartScreen> {
                             Icon(Icons.local_offer_outlined,
                                 color: AppTheme.primary, size: 16),
                             SizedBox(width: 8),
-                            Text(
-                              'Promo Code',
-                              style: TextStyle(
+                            Text('Promo Code', style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                color: AppTheme.textPrimary,
-                                fontSize: 14,
-                              ),
-                            ),
+                                color: AppTheme.textPrimary, fontSize: 14)),
                           ]),
                           const SizedBox(height: 10),
                           if (_appliedPromo != null)
@@ -112,24 +130,21 @@ class _CartScreenState extends State<CartScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 8),
                               decoration: BoxDecoration(
-                                color: AppTheme.successDim,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                                  color: AppTheme.successDim,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: Row(children: [
                                 const Icon(Icons.check_circle,
                                     color: AppTheme.success, size: 16),
                                 const SizedBox(width: 8),
-                                Text(
-                                  '$_appliedPromo — 10% off applied!',
-                                  style: const TextStyle(
-                                    color: AppTheme.success,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                                Text('$_appliedPromo — 10% off applied!',
+                                    style: const TextStyle(
+                                        color: AppTheme.success,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600)),
                                 const Spacer(),
                                 GestureDetector(
-                                  onTap: () => setState(() => _appliedPromo = null),
+                                  onTap: () =>
+                                      setState(() => _appliedPromo = null),
                                   child: const Icon(Icons.close,
                                       color: AppTheme.success, size: 16),
                                 ),
@@ -140,13 +155,16 @@ class _CartScreenState extends State<CartScreen> {
                               Expanded(
                                 child: TextField(
                                   controller: _promoCtrl,
-                                  textCapitalization: TextCapitalization.characters,
+                                  textCapitalization:
+                                      TextCapitalization.characters,
                                   decoration: InputDecoration(
                                     hintText: 'Enter promo code',
-                                    errorText:
-                                        _promoError ? 'Invalid. Try SWIFT10' : null,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 10),
+                                    errorText: _promoError
+                                        ? 'Invalid. Try SWIFT10'
+                                        : null,
+                                    contentPadding:
+                                        const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 10),
                                   ),
                                 ),
                               ),
@@ -155,8 +173,8 @@ class _CartScreenState extends State<CartScreen> {
                                 onPressed: _applyPromo,
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: const Size(0, 44),
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                 ),
                                 child: const Text('Apply'),
                               ),
@@ -177,30 +195,30 @@ class _CartScreenState extends State<CartScreen> {
                       child: Column(children: [
                         _SummaryRow(
                             label: 'Subtotal',
-                            value: '\$${_subtotal.toStringAsFixed(2)}'),
+                            value: 'KSh $_subtotal'),
                         const SizedBox(height: 8),
                         _SummaryRow(
                             label: 'Delivery fee',
-                            value: '\$${_deliveryFee.toStringAsFixed(2)}'),
+                            value: 'KSh $_deliveryFee'),
                         if (_discount > 0) ...[
                           const SizedBox(height: 8),
                           _SummaryRow(
                             label: 'Promo discount',
-                            value: '-\$${_discount.toStringAsFixed(2)}',
+                            value: '- KSh $_discount',
                             valueColor: AppTheme.success,
                           ),
                         ],
                         SizedBox(height: 12),
-                        const Divider(),
-                        const SizedBox(height: 12),
+                        Divider(),
+                        SizedBox(height: 12),
                         _SummaryRow(
                           label: 'Total',
-                          value: '\$${_total.toStringAsFixed(2)}',
+                          value: 'KSh $_total',
                           isBold: true,
                         ),
                       ]),
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     TextField(
                       decoration: const InputDecoration(
@@ -216,9 +234,7 @@ class _CartScreenState extends State<CartScreen> {
               // Checkout button
               Container(
                 padding: EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 12,
+                  left: 16, right: 16, top: 12,
                   bottom: MediaQuery.of(context).padding.bottom + 12,
                 ),
                 decoration: const BoxDecoration(
@@ -233,18 +249,13 @@ class _CartScreenState extends State<CartScreen> {
                       MaterialPageRoute(
                           builder: (_) => CheckoutScreen(total: _total)),
                     ),
-                    child: Text(
-                        'Proceed to Checkout  ·  \$${_total.toStringAsFixed(2)}'),
+                    child: Text('Proceed to Checkout  ·  KSh $_total'),
                   ),
                 ),
               ),
             ]),
     );
   }
-}
-
-class AppDivider {
-  const AppDivider();
 }
 
 class _CartItemTile extends StatelessWidget {
@@ -271,19 +282,13 @@ class _CartItemTile extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              cartItem.item.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
-                color: AppTheme.textPrimary,
-              ),
-            ),
+            Text(cartItem.item.name, style: const TextStyle(
+                fontWeight: FontWeight.w700, fontSize: 14,
+                color: AppTheme.textPrimary)),
             const SizedBox(height: 2),
-            Text(
-              '\$${cartItem.item.price.toStringAsFixed(2)} each',
-              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
-            ),
+            Text('KSh ${cartItem.item.price.toInt()} each',
+                style: const TextStyle(
+                    color: AppTheme.textSecondary, fontSize: 12)),
           ]),
         ),
         Row(children: [
@@ -291,27 +296,18 @@ class _CartItemTile extends StatelessWidget {
           SizedBox(
             width: 32,
             child: Center(
-              child: Text(
-                '${cartItem.quantity}',
-                style: const TextStyle(
+              child: Text('${cartItem.quantity}', style: const TextStyle(
                   color: AppTheme.textPrimary,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 15,
-                ),
-              ),
+                  fontWeight: FontWeight.w800, fontSize: 15)),
             ),
           ),
           _QtyBtn(icon: Icons.add, onTap: onIncrement),
         ]),
         const SizedBox(width: 12),
-        Text(
-          '\$${cartItem.total.toStringAsFixed(2)}',
-          style: const TextStyle(
-            fontWeight: FontWeight.w800,
-            color: AppTheme.textPrimary,
-            fontSize: 14,
-          ),
-        ),
+        Text('KSh ${cartItem.total.toInt()}',
+            style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                color: AppTheme.textPrimary, fontSize: 14)),
       ]),
     );
   }
@@ -327,8 +323,7 @@ class _QtyBtn extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 26,
-        height: 26,
+        width: 26, height: 26,
         decoration: BoxDecoration(
           color: AppTheme.primaryDim,
           borderRadius: BorderRadius.circular(6),
@@ -355,23 +350,16 @@ class _SummaryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Text(
-        label,
-        style: TextStyle(
+      Text(label, style: TextStyle(
           color: isBold ? AppTheme.textPrimary : AppTheme.textSecondary,
           fontSize: isBold ? 15 : 13,
-          fontWeight: isBold ? FontWeight.w800 : FontWeight.normal,
-        ),
-      ),
+          fontWeight: isBold ? FontWeight.w800 : FontWeight.normal)),
       const Spacer(),
-      Text(
-        value,
-        style: TextStyle(
-          color: valueColor ?? (isBold ? AppTheme.textPrimary : AppTheme.textSecondary),
+      Text(value, style: TextStyle(
+          color: valueColor ??
+              (isBold ? AppTheme.textPrimary : AppTheme.textSecondary),
           fontSize: isBold ? 17 : 13,
-          fontWeight: isBold ? FontWeight.w900 : FontWeight.w600,
-        ),
-      ),
+          fontWeight: isBold ? FontWeight.w900 : FontWeight.w600)),
     ]);
   }
 }
@@ -385,19 +373,12 @@ class _EmptyCart extends StatelessWidget {
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         Text('🛒', style: TextStyle(fontSize: 64)),
         SizedBox(height: 16),
-        Text(
-          'Your cart is empty',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppTheme.textPrimary,
-          ),
-        ),
+        Text('Your cart is empty', style: TextStyle(
+            fontSize: 18, fontWeight: FontWeight.w700,
+            color: AppTheme.textPrimary)),
         SizedBox(height: 6),
-        Text(
-          'Add items from a restaurant to get started',
-          style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
-        ),
+        Text('Add items from a restaurant to get started',
+            style: TextStyle(color: AppTheme.textSecondary, fontSize: 14)),
       ]),
     );
   }

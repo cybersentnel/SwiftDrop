@@ -60,8 +60,10 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     });
   }
 
-  int get _cartTotal => widget.cartItems.fold(0, (s, i) => s + i.quantity);
-  double get _cartPrice => widget.cartItems.fold(0.0, (s, i) => s + i.total);
+  int get _cartTotal => 
+      widget.cartItems.fold(0, (s, i) => s + i.quantity);
+  int get _cartPrice => 
+      widget.cartItems.fold(0, (s, i) => s + i.total.toInt());
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   color: AppTheme.bg.withValues(alpha: 0.8),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.arrow_back, color: AppTheme.textPrimary),
+                child: const Icon(Icons.arrow_back, 
+                    color: AppTheme.textPrimary),
               ),
             ),
           ),
@@ -108,15 +111,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 children: [
                   Row(children: [
                     Expanded(
-                      child: Text(
-                        widget.restaurant.name,
+                      child: Text(widget.restaurant.name,
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                           color: AppTheme.textPrimary,
+                          letterSpacing: -0.4)),
                         ),
-                      ),
-                    ),
                     StarRating(rating: widget.restaurant.rating),
                   ]),
 
@@ -128,8 +129,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     deliveryMins: widget.restaurant.deliveryMins,
                   ),
                   SizedBox(height: 12),
-                  Text(
-                    widget.restaurant.address,
+                  Text(widget.restaurant.address,
                     style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                   ),
                   SizedBox(height: 16),
@@ -144,22 +144,19 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 10),
-                child: Text(
-                  entry.key,
+                child: Text(entry.key,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
-                    color: AppTheme.textPrimary,
-                  ),
-                ),
+                    color: AppTheme.textPrimary)),
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (_, i) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: EdgeInsets.only(bottom: 10),
                     child: _MenuItemTile(
                       item: entry.value[i],
                       quantity: _quantityOf(entry.value[i].id),
@@ -181,7 +178,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       bottomNavigationBar: _cartTotal > 0
           ? _CartFooter(
               itemCount: _cartTotal,
-              price: _cartPrice,
+              price: _cartPrice.toDouble(),
               deliveryFee: widget.restaurant.deliveryFee,
               onViewCart: () => Navigator.push(
                 context,
@@ -438,11 +435,11 @@ class _CartFooter extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
               ),
             ),
-            const Spacer(),
-            const Text('View Cart'),
+            Spacer(),
+            Text('View Cart'),
             const Spacer(),
             Text(
-              '\$${(price + deliveryFee).toStringAsFixed(2)}',
+              ('Ksh ${price + deliveryFee}'),
               style: const TextStyle(fontWeight: FontWeight.w700),
             ),
           ]),

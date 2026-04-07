@@ -5,7 +5,9 @@ import 'package:flutter_mekitakizi/auth/login_screen.dart';
 import 'package:flutter_mekitakizi/controllers/signup_controller.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final String role;
+
+  const SignupScreen({super.key, required this.role});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -313,7 +315,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     GestureDetector(
                       onTap: () => Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                        MaterialPageRoute
+                        (builder: (_) => const LoginScreen(role: "widget.role")),
                       ),
                       child: const Text(
                         'Sign In',

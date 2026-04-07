@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
-import 'package:flutter_mekitakizi/views/orders_screen.dart';
 
 class TrackingScreen extends StatefulWidget {
   const TrackingScreen({super.key});
@@ -179,9 +178,9 @@ class _TrackingScreenState extends State<TrackingScreen> {
                       ],
                     ),
                   ),
-                  StatusChip(status: step.label),
                 ]),
-                const SizedBox(height: 20),
+                // ignore: prefer_const_constructors
+                SizedBox(height: 20),
 
                 // Progress stepper
                 Row(
@@ -351,3 +350,33 @@ class _MapPainter extends CustomPainter {
   @override
   bool shouldRepaint(_) => false;
 }
+class StatusChip extends StatelessWidget {
+  final String label;
+  final Color color;
+
+  const StatusChip({
+    super.key,
+    required this.label,
+    required this.color, required String status,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: color,
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+}
+
