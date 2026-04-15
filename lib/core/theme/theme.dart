@@ -55,8 +55,6 @@ class AppTheme {
       primary: primary,
       secondary: secondary,
       surface: surface,
-      // ignore: deprecated_member_use
-      background:bg,
       error: danger,
     ),
     appBarTheme: const AppBarTheme(
@@ -72,13 +70,13 @@ class AppTheme {
       iconTheme: IconThemeData(color: textPrimary),
     ),
     cardTheme: CardThemeData(
-  color: card,
-  elevation: 0,
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(16),
-    side: const BorderSide(color: border),
-  ),
-),
+       color: card,
+       elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: border),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: primary,

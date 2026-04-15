@@ -100,12 +100,13 @@ class _TrackingScreenState extends State<TrackingScreen> {
               ),
             ),
 
+            // ETA badge
             Positioned(
               top: MediaQuery.of(context).padding.top + 8,
               right: 16,
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
                   color: AppTheme.bg.withValues(alpha: 0.9),
                   borderRadius: BorderRadius.circular(24),
@@ -178,9 +179,9 @@ class _TrackingScreenState extends State<TrackingScreen> {
                       ],
                     ),
                   ),
+                  StatusChip(status: step.label),
                 ]),
-                // ignore: prefer_const_constructors
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Progress stepper
                 Row(
@@ -351,32 +352,35 @@ class _MapPainter extends CustomPainter {
   bool shouldRepaint(_) => false;
 }
 class StatusChip extends StatelessWidget {
-  final String label;
-  final Color color;
+  final String status;
 
-  const StatusChip({
-    super.key,
-    required this.label,
-    required this.color, required String status,
-  });
+  const StatusChip({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
+    final Color color = switch (status) {
+      'Placed' => AppTheme.textSecondary,
+      'Preparing' => AppTheme.secondary,
+      'On the Way' => AppTheme.primary,
+      'Delivered' => AppTheme.success,
+      _ => AppTheme.textMuted,
+    };
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
       ),
       child: Text(
-        label,
+        status,
         style: TextStyle(
           color: color,
-          fontWeight: FontWeight.w600,
-          fontSize: 12,
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
   }
 }
-

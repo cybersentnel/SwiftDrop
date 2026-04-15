@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
 import 'package:flutter_mekitakizi/auth/login_screen.dart';
 
@@ -126,7 +125,7 @@ class _RoleCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
@@ -137,24 +136,24 @@ class _RoleCard extends StatelessWidget {
           border: Border.all(color: accentColor.withValues(alpha: 0.3)),
         ),
         child: Row(children: [
-          Text(emoji, style: const TextStyle(fontSize: 44)),
-          const SizedBox(width: 20),
+          Text(emoji, style: TextStyle(fontSize: 44)),
+          SizedBox(width: 20),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppTheme.textPrimary,
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppTheme.textSecondary,
                     fontSize: 13,
                   ),
@@ -163,7 +162,7 @@ class _RoleCard extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: accentColor.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(10),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
 import 'package:flutter_mekitakizi/core/constants/app_constants.dart';
 import 'package:flutter_mekitakizi/views/checkout_screen.dart';
+// ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartScreen extends StatefulWidget {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
 import 'package:flutter_mekitakizi/views/tracking_screen.dart';
 
-
 class CheckoutScreen extends StatefulWidget {
   final int total;
   const CheckoutScreen({super.key, required this.total});

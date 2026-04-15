@@ -23,7 +23,7 @@ class CategoryPill extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: selected ? AppTheme.primary : AppTheme.surface,
           borderRadius: BorderRadius.circular(20),
@@ -99,37 +99,37 @@ class _HomeScreenState extends State<HomeScreen> {
         onCartTap: _goToCart,
       ),
       OrdersScreen(),
-      const _ProfileTab(),
+      _ProfileTab(),
     ];
 
     return Scaffold(
       body: screens[_navIndex],
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(top: BorderSide(color: AppTheme.border)),
         ),
         child: BottomNavigationBar(
           currentIndex: _navIndex,
           onTap: (i) => setState(() => _navIndex = i),
           items: [
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
                 activeIcon: Icon(Icons.home),
                 label: 'Discover'),
             BottomNavigationBarItem(
               icon: Stack(children: [
-                const Icon(Icons.receipt_long_outlined),
+                Icon(Icons.receipt_long_outlined),
                 if (SampleData.orders.any((o) => o.status == 'On the Way'))
                   Positioned(top: 0, right: 0, child: Container(
                     width: 8, height: 8,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: AppTheme.primary, shape: BoxShape.circle),
                   )),
               ]),
-              activeIcon: const Icon(Icons.receipt_long),
+              activeIcon: Icon(Icons.receipt_long),
               label: 'Orders',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline),
                 activeIcon: Icon(Icons.person),
                 label: 'Profile'),
@@ -162,10 +162,10 @@ class _BrowseTab extends StatelessWidget {
       SliverAppBar(
         floating: true,
         title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Delivering to', style: TextStyle(
+          Text('Delivering to', style: TextStyle(
               color: AppTheme.textSecondary, fontSize: 12,
               fontWeight: FontWeight.normal)),
-          const Row(children: [
+          Row(children: [
             Text('Nairobi, Kenya', style: TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w800,
                 color: AppTheme.textPrimary)),
@@ -176,15 +176,15 @@ class _BrowseTab extends StatelessWidget {
         actions: [
           Stack(children: [
             IconButton(
-                icon: const Icon(Icons.shopping_bag_outlined),
+                icon: Icon(Icons.shopping_bag_outlined),
                 onPressed: onCartTap),
             if (cartCount > 0)
               Positioned(top: 6, right: 6, child: Container(
                 width: 16, height: 16,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     color: AppTheme.primary, shape: BoxShape.circle),
                 child: Center(child: Text('$cartCount',
-                    style: const TextStyle(color: Colors.white,
+                    style: TextStyle(color: Colors.white,
                         fontSize: 9, fontWeight: FontWeight.bold))),
               )),
           ]),
@@ -193,17 +193,17 @@ class _BrowseTab extends StatelessWidget {
 
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             // Search bar
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
               decoration: BoxDecoration(
                 color: AppTheme.surface,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: AppTheme.border),
               ),
-              child: const Row(children: [
+              child: Row(children: [
                 Icon(Icons.search, color: AppTheme.textMuted, size: 20),
                 SizedBox(width: 10),
                 Text('Search restaurants, dishes...',
@@ -281,7 +281,7 @@ class _FeaturedBanner extends StatelessWidget {
       child: Container(
         height: 150,
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             colors: [Color(0xFF1E1008), Color(0xFF2A180A)],
             begin: Alignment.topLeft, end: Alignment.bottomRight,
           ),
@@ -291,7 +291,7 @@ class _FeaturedBanner extends StatelessWidget {
         child: Stack(children: [
           Positioned(right: 20, top: 0, bottom: 0,
             child: Center(child: Text(restaurant.imageEmoji,
-                style: const TextStyle(fontSize: 72)))),
+                style: TextStyle(fontSize: 72)))),
           Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -299,19 +299,19 @@ class _FeaturedBanner extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                       color: AppTheme.primary,
                       borderRadius: BorderRadius.circular(6)),
-                  child: const Text('FEATURED', style: TextStyle(
+                  child: Text('FEATURED', style: TextStyle(
                       color: Colors.white, fontSize: 10,
                       fontWeight: FontWeight.w800, letterSpacing: 0.5)),
                 ),
-                const SizedBox(height: 8),
-                Text(restaurant.name, style: const TextStyle(
+                SizedBox(height: 8),
+                Text(restaurant.name, style: TextStyle(
                     color: AppTheme.textPrimary, fontSize: 20,
                     fontWeight: FontWeight.w800)),
-                const SizedBox(height: 6),
+                SizedBox(height: 6),
                 DeliveryInfo(
                   deliveryFee: restaurant.deliveryFee,
                   distanceKm: restaurant.distanceKm,
@@ -348,14 +348,14 @@ class _RestaurantCard extends StatelessWidget {
             height: 130,
             decoration: BoxDecoration(
               color: catColor.withValues(alpha: 0.08),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             ),
             child: Stack(children: [
               Center(child: Text(restaurant.imageEmoji,
-                  style: const TextStyle(fontSize: 64))),
+                  style: TextStyle(fontSize: 64))),
               Positioned(top: 10, right: 10,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                       horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: catColor.withValues(alpha: 0.15),
@@ -369,16 +369,16 @@ class _RestaurantCard extends StatelessWidget {
             ]),
           ),
           Padding(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
               Row(children: [
-                Expanded(child: Text(restaurant.name, style: const TextStyle(
+                Expanded(child: Text(restaurant.name, style: TextStyle(
                     fontWeight: FontWeight.w800, fontSize: 15,
                     color: AppTheme.textPrimary))),
                 StarRating(rating: restaurant.rating),
               ]),
-              const SizedBox(height: 6),
+              SizedBox(height: 6),
               DeliveryInfo(
                 deliveryFee: restaurant.deliveryFee,
                 distanceKm: restaurant.distanceKm,
@@ -407,8 +407,8 @@ class _ProfileTab extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
-      body: ListView(padding: const EdgeInsets.all(16), children: [
+      appBar: AppBar(title: Text('Profile')),
+      body: ListView(padding: EdgeInsets.all(16), children: [
         Center(child: Column(children: [
           Container(
             width: 80, height: 80,
@@ -418,19 +418,19 @@ class _ProfileTab extends StatelessWidget {
               border: Border.all(
                   color: AppTheme.primary.withValues(alpha: 0.4), width: 2),
             ),
-            child: const Center(
+            child: Center(
                 child: Text('👤', style: TextStyle(fontSize: 36))),
           ),
-          const SizedBox(height: 12),
-          const Text('Doras Pesian', style: TextStyle(
+          SizedBox(height: 12),
+          Text('Doras Pesian', style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.w800,
               color: AppTheme.textPrimary)),
-          const Text('pesiandoras@gmail.com',
+          Text('pesiandoras@gmail.com',
               style: TextStyle(color: AppTheme.textSecondary, fontSize: 14)),
         ])),
-        const SizedBox(height: 28),
+        SizedBox(height: 28),
         ...items.map((item) => Container(
-          margin: const EdgeInsets.only(bottom: 8),
+          margin: EdgeInsets.only(bottom: 8),
           decoration: BoxDecoration(
             color: AppTheme.card,
             borderRadius: BorderRadius.circular(12),
@@ -438,10 +438,10 @@ class _ProfileTab extends StatelessWidget {
           ),
           child: ListTile(
             leading: Icon(item.$2, color: AppTheme.textSecondary, size: 20),
-            title: Text(item.$1, style: const TextStyle(
+            title: Text(item.$1, style: TextStyle(
                 color: AppTheme.textPrimary, fontSize: 14,
                 fontWeight: FontWeight.w500)),
-            trailing: const Icon(Icons.chevron_right,
+            trailing: Icon(Icons.chevron_right,
                 color: AppTheme.textMuted, size: 18),
             onTap: () {},
           ),

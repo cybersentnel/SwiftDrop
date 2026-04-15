@@ -7,4 +7,6 @@ class RoleSelectController {
   bool isCustomer(String role) {
     return role == 'customer';
   }
+
+  void setUser(response) {}
 }

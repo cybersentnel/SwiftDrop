@@ -1,24 +1,10 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:flutter_mekitakizi/service/database_service.dart';
 
 class TrackingController {
-  static const String baseUrl = 'http://10.0.2.2/swiftdrop';
-
   Future<Map<String, dynamic>> getOrderStatus({
     required int orderId,
   }) async {
-    try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/get_order_details.php?order_id=$orderId'),
-        headers: {'Content-Type': 'application/json'},
-      );
-      return jsonDecode(response.body);
-    } catch (e) {
-      return {
-        'success': false,
-        'message': 'Could not connect to server. Make sure XAMPP is running.',
-      };
-    }
+    return DatabaseService.getOrderDetails(orderId: orderId);
   }
 
   String getStatusLabel(int index) {

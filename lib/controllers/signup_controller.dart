@@ -1,32 +1,29 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:flutter_mekitakizi/service/database_service.dart';
+import 'package:get/get.dart';
 
-class SignupController {
-  static const String baseUrl = 'http://10.0.2.2/swiftdrop';
+class SignupController extends GetxController {
 
   Future<Map<String, dynamic>> register({
     required String name,
     required String email,
     required String password,
-    String role = 'customer',
+    required String role,  //'customer' or 'driver'
   }) async {
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/register.php'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'name':     name.trim(),
-          'email':    email.trim(),
-          'password': password.trim(),
-          'role':     role,
-        }),
-      );
-      return jsonDecode(response.body);
-    } catch (e) {
-      return {
-        'success': false,
-        'message': 'Could not connect to server. Make sure XAMPP is running.',
-      };
-    }
+    return DatabaseService.register(
+      name: name,
+      email: email,
+      password: password,
+      role: role,
+    );
+  }
+
+  Future login(String email, String password) async {
+    final response = await DatabaseService.login(
+      email: email,
+      password: password,
+    );
+
+    return response['success'] == true;
+
   }
 }

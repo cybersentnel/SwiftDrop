@@ -1,6 +1,13 @@
-
-
 // ignore_for_file: prefer_const_constructors
+
+class AppConstants {
+  static const String baseUrl = 'https://192.168.9.220/swiftdrop';
+}
+ const String currencySymbol = 'Ksh';
+
+ const int deliveryFee = 100;  //Ksh
+
+ const int freeDeliveryMinOrder = 2000;  //Free delivery above this
 
 class Restaurant {
   final String id, name, category, imageEmoji, address;
@@ -27,7 +34,7 @@ class Restaurant {
 
 class MenuItem {
   final String id, name, description, category;
-  final double price;
+  final int price;
   final String emoji;
   final bool isPopular;
 
@@ -46,7 +53,7 @@ class CartItem {
   final MenuItem item;
   int quantity;
   CartItem({required this.item, this.quantity = 1});
-  double get total => item.price * quantity;
+  int get total => item.price * quantity;
 }
 
 class Order {
@@ -101,14 +108,14 @@ class SampleData {
       distanceKm: 0.8,
       deliveryMins: 20,
       isFeatured: true,
-      menu: const [
-        MenuItem(id: 'm1', name: 'Classic Smash Burger', description: 'Double smash patty, American cheese, pickles, special sauce', category: 'Burgers', price: 12.99, emoji: '🍔', isPopular: true),
-        MenuItem(id: 'm2', name: 'BBQ Bacon Burger', description: 'Crispy bacon, BBQ sauce, caramelised onions, cheddar', category: 'Burgers', price: 14.99, emoji: '🥓'),
-        MenuItem(id: 'm3', name: 'Crispy Chicken Burger', description: 'Fried chicken thigh, slaw, spicy mayo', category: 'Burgers', price: 13.49, emoji: '🍗', isPopular: true),
-        MenuItem(id: 'm4', name: 'Loaded Fries', description: 'Crinkle fries, cheese sauce, jalapeños, chives', category: 'Sides', price: 6.99, emoji: '🍟'),
-        MenuItem(id: 'm5', name: 'Onion Rings', description: 'Beer-battered, served with ranch', category: 'Sides', price: 4.99, emoji: '🧅'),
-        MenuItem(id: 'm6', name: 'Vanilla Shake', description: 'Thick hand-spun milkshake', category: 'Drinks', price: 5.99, emoji: '🥛'),
-        MenuItem(id: 'm7', name: 'Craft Lemonade', description: 'Fresh squeezed, mint infused', category: 'Drinks', price: 3.99, emoji: '🍋'),
+      menu: [
+        MenuItem(id: 'm1', name: 'Classic Smash Burger', description: 'Double smash patty, American cheese, pickles, special sauce', category: 'Burgers', price: 300, emoji: '🍔', isPopular: true),
+        MenuItem(id: 'm2', name: 'BBQ Bacon Burger', description: 'Crispy bacon, BBQ sauce, caramelised onions, cheddar', category: 'Burgers', price: 150, emoji: '🥓'),
+        MenuItem(id: 'm3', name: 'Crispy Chicken Burger', description: 'Fried chicken thigh, slaw, spicy mayo', category: 'Burgers', price: 1300, emoji: '🍗', isPopular: true),
+        MenuItem(id: 'm4', name: 'Loaded Fries', description: 'Crinkle fries, cheese sauce, jalapeños, chives', category: 'Sides', price: 600, emoji: '🍟'),
+        MenuItem(id: 'm5', name: 'Onion Rings', description: 'Beer-battered, served with ranch', category: 'Sides', price: 400, emoji: '🧅'),
+        MenuItem(id: 'm6', name: 'Vanilla Shake', description: 'Thick hand-spun milkshake', category: 'Drinks', price: 500, emoji: '🥛'),
+        MenuItem(id: 'm7', name: 'Craft Lemonade', description: 'Fresh squeezed, mint infused', category: 'Drinks', price: 300, emoji: '🍋'),
       ],
     ),
     Restaurant(
@@ -118,16 +125,16 @@ class SampleData {
       imageEmoji: '🍣',
       address: '47 River Lane',
       rating: 4.9,
-      deliveryFee: 2.99,
+      deliveryFee: 100,
       distanceKm: 1.4,
       deliveryMins: 30,
       isFeatured: true,
-      menu: const [
-        MenuItem(id: 'm8', name: 'Salmon Nigiri (6pc)', description: 'Fresh Atlantic salmon, seasoned rice', category: 'Nigiri', price: 14.99, emoji: '🍣', isPopular: true),
-        MenuItem(id: 'm9', name: 'Dragon Roll', description: 'Shrimp tempura, avocado, eel sauce', category: 'Rolls', price: 17.99, emoji: '🥑', isPopular: true),
-        MenuItem(id: 'm10', name: 'Miso Soup', description: 'Tofu, wakame, spring onion', category: 'Sides', price: 3.99, emoji: '🥣'),
-        MenuItem(id: 'm11', name: 'Edamame', description: 'Salted steamed edamame', category: 'Sides', price: 4.99, emoji: '🫘'),
-        MenuItem(id: 'm12', name: 'Matcha Ice Cream', description: 'Premium Japanese matcha, 2 scoops', category: 'Dessert', price: 5.99, emoji: '🍵'),
+      menu: [
+        MenuItem(id: 'm8', name: 'Salmon Nigiri (6pc)', description: 'Fresh Atlantic salmon, seasoned rice', category: 'Nigiri', price: 200, emoji: '🍣', isPopular: true),
+        MenuItem(id: 'm9', name: 'Dragon Roll', description: 'Shrimp tempura, avocado, eel sauce', category: 'Rolls', price: 150, emoji: '🥑', isPopular: true),
+        MenuItem(id: 'm10', name: 'Miso Soup', description: 'Tofu, wakame, spring onion', category: 'Sides', price: 300, emoji: '🥣'),
+        MenuItem(id: 'm11', name: 'Edamame', description: 'Salted steamed edamame', category: 'Sides', price: 180, emoji: '🫘'),
+        MenuItem(id: 'm12', name: 'Matcha Ice Cream', description: 'Premium Japanese matcha, 2 scoops', category: 'Dessert', price: 160, emoji: '🍵'),
       ],
     ),
     Restaurant(
@@ -137,14 +144,14 @@ class SampleData {
       imageEmoji: '🍛',
       address: '88 Curry Road',
       rating: 4.7,
-      deliveryFee: 0.99,
+      deliveryFee: 100,
       distanceKm: 2.1,
       deliveryMins: 35,
-      menu: const [
-        MenuItem(id: 'm13', name: 'Butter Chicken', description: 'Tender chicken in rich tomato cream sauce', category: 'Mains', price: 15.99, emoji: '🍛', isPopular: true),
-        MenuItem(id: 'm14', name: 'Lamb Biryani', description: 'Slow cooked lamb, saffron basmati, raita', category: 'Mains', price: 17.99, emoji: '🍚', isPopular: true),
-        MenuItem(id: 'm15', name: 'Garlic Naan (3pc)', description: 'Tandoor-baked, garlic butter', category: 'Bread', price: 5.99, emoji: '🫓'),
-        MenuItem(id: 'm16', name: 'Mango Lassi', description: 'Chilled yoghurt, Alphonso mango', category: 'Drinks', price: 4.49, emoji: '🥭'),
+      menu: [
+        MenuItem(id: 'm13', name: 'Butter Chicken', description: 'Tender chicken in rich tomato cream sauce', category: 'Mains', price: 400, emoji: '🍛', isPopular: true),
+        MenuItem(id: 'm14', name: 'Lamb Biryani', description: 'Slow cooked lamb, saffron basmati, raita', category: 'Mains', price: 200, emoji: '🍚', isPopular: true),
+        MenuItem(id: 'm15', name: 'Garlic Naan (3pc)', description: 'Tandoor-baked, garlic butter', category: 'Bread', price: 600, emoji: '🫓'),
+        MenuItem(id: 'm16', name: 'Mango Lassi', description: 'Chilled yoghurt, Alphonso mango', category: 'Drinks', price: 450, emoji: '🥭'),
       ],
     ),
     Restaurant(
@@ -154,14 +161,14 @@ class SampleData {
       imageEmoji: '🍕',
       address: '5 Marina Blvd',
       rating: 4.5,
-      deliveryFee: 1.49,
+      deliveryFee: 100,
       distanceKm: 0.5,
       deliveryMins: 25,
-      menu: const [
-        MenuItem(id: 'm17', name: 'Margherita', description: 'San Marzano tomato, buffalo mozzarella, basil', category: 'Pizzas', price: 13.99, emoji: '🍕', isPopular: true),
-        MenuItem(id: 'm18', name: 'Pepperoni Fire', description: 'Double pepperoni, chilli flakes, honey drizzle', category: 'Pizzas', price: 15.99, emoji: '🌶️', isPopular: true),
-        MenuItem(id: 'm19', name: 'Truffle Mushroom', description: 'Wild mushrooms, truffle oil, parmesan', category: 'Pizzas', price: 16.99, emoji: '🍄'),
-        MenuItem(id: 'm20', name: 'Tiramisu', description: 'Classic Italian, espresso soaked ladyfingers', category: 'Desserts', price: 7.99, emoji: '🍮'),
+      menu: [
+        MenuItem(id: 'm17', name: 'Margherita', description: 'San Marzano tomato, buffalo mozzarella, basil', category: 'Pizzas', price: 1400, emoji: '🍕', isPopular: true),
+        MenuItem(id: 'm18', name: 'Pepperoni Fire', description: 'Double pepperoni, chilli flakes, honey drizzle', category: 'Pizzas', price: 1500, emoji: '🌶️', isPopular: true),
+        MenuItem(id: 'm19', name: 'Truffle Mushroom', description: 'Wild mushrooms, truffle oil, parmesan', category: 'Pizzas', price: 800, emoji: '🍄'),
+        MenuItem(id: 'm20', name: 'Tiramisu', description: 'Classic Italian, espresso soaked ladyfingers', category: 'Desserts', price: 1000, emoji: '🍮'),
       ],
     ),
     Restaurant(
@@ -171,13 +178,13 @@ class SampleData {
       imageEmoji: '🥗',
       address: '21 Health Ave',
       rating: 4.6,
-      deliveryFee: 2.49,
+      deliveryFee: 100,
       distanceKm: 1.8,
       deliveryMins: 20,
-      menu: const [
-        MenuItem(id: 'm21', name: 'Acai Power Bowl', description: 'Acai, granola, banana, honey, coconut flakes', category: 'Bowls', price: 13.99, emoji: '🫐', isPopular: true),
-        MenuItem(id: 'm22', name: 'Grilled Salmon Salad', description: 'Baby spinach, quinoa, avocado, lemon dressing', category: 'Salads', price: 16.99, emoji: '🥗', isPopular: true),
-        MenuItem(id: 'm23', name: 'Green Detox Juice', description: 'Kale, cucumber, apple, ginger, lemon', category: 'Drinks', price: 6.99, emoji: '🥤'),
+      menu: [
+        MenuItem(id: 'm21', name: 'Acai Power Bowl', description: 'Acai, granola, banana, honey, coconut flakes', category: 'Bowls', price: 200, emoji: '🫐', isPopular: true),
+        MenuItem(id: 'm22', name: 'Grilled Salmon Salad', description: 'Baby spinach, quinoa, avocado, lemon dressing', category: 'Salads', price: 300, emoji: '🥗', isPopular: true),
+        MenuItem(id: 'm23', name: 'Green Detox Juice', description: 'Kale, cucumber, apple, ginger, lemon', category: 'Drinks', price: 200, emoji: '🥤'),
       ],
     ),
   ];
@@ -189,8 +196,8 @@ class SampleData {
       status: 'On the Way',
       address: '34 Maple Drive, Apt 4B',
       total: 29.96,
-      placedAt: DateTime.now().subtract(const Duration(minutes: 18)),
-      itemNames: const ['Classic Smash Burger', 'Loaded Fries', 'Craft Lemonade'],
+      placedAt: DateTime.now().subtract(Duration(minutes: 18)),
+      itemNames: ['Classic Smash Burger', 'Loaded Fries', 'Craft Lemonade'],
       estimatedMins: 7,
     ),
     Order(
@@ -199,8 +206,8 @@ class SampleData {
       status: 'Delivered',
       address: '34 Maple Drive, Apt 4B',
       total: 41.97,
-      placedAt: DateTime.now().subtract(const Duration(days: 1)),
-      itemNames: const ['Salmon Nigiri (6pc)', 'Dragon Roll', 'Miso Soup'],
+      placedAt: DateTime.now().subtract(Duration(days: 1)),
+      itemNames: ['Salmon Nigiri (6pc)', 'Dragon Roll', 'Miso Soup'],
       estimatedMins: 0,
     ),
     Order(
@@ -209,8 +216,8 @@ class SampleData {
       status: 'Delivered',
       address: '34 Maple Drive, Apt 4B',
       total: 34.47,
-      placedAt: DateTime.now().subtract(const Duration(days: 3)),
-      itemNames: const ['Butter Chicken', 'Garlic Naan (3pc)', 'Mango Lassi'],
+      placedAt: DateTime.now().subtract(Duration(days: 3)),
+      itemNames: ['Butter Chicken', 'Garlic Naan (3pc)', 'Mango Lassi'],
       estimatedMins: 0,
     ),
     Order(
@@ -219,8 +226,8 @@ class SampleData {
       status: 'Cancelled',
       address: '34 Maple Drive, Apt 4B',
       total: 29.98,
-      placedAt: DateTime.now().subtract(const Duration(days: 5)),
-      itemNames: const ['Pepperoni Fire', 'Tiramisu'],
+      placedAt: DateTime.now().subtract(Duration(days: 5)),
+      itemNames: ['Pepperoni Fire', 'Tiramisu'],
       estimatedMins: 0,
     ),
   ];
