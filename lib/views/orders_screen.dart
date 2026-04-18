@@ -196,7 +196,7 @@ class StatusChip extends StatelessWidget {
   const StatusChip({
     super.key,
     required this.label,
-    required this.color,
+    required this.color, required String status,
   });
 
   @override

@@ -143,7 +143,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     return null;
                   },
                 ),
-               SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 _FieldLabel('Email'),
                 SizedBox(height: 8),
@@ -296,11 +296,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     onPressed: _loading ? null : _signup,
                     child: _loading
                         ? SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                                strokeWidth: 2.5, color: Colors.white),
-                          )
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2.5, color: Colors.white),
+                    )
                         : Text('Create Account'),
                   ),
                 ),
@@ -318,7 +318,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       onTap: () => Navigator.pushReplacement(
                         context,
                         MaterialPageRoute
-                        (builder: (_) => LoginScreen(role: widget.role)),
+                          (builder: (_) => LoginScreen(role: widget.role)),
                       ),
                       child: Text(
                         'Sign In',

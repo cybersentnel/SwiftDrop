@@ -7,14 +7,15 @@ class LoginController extends GetxController {
   var isPassVisible = false.obs;
   var isLoading = false.obs;
 
-  void togglePassword() => isPassVisible.value = !isPassVisible.value;
-
+  void togglePassword() {
+    isPassVisible.value = !isPassVisible.value;
+  }
   Future<Map<String, dynamic>> login({
-    required String email, 
-    required String password, 
-    }) async {
-  if (email.trim().isEmpty || password.trim().isEmpty) {
+    required String email,
+    required String password,
+  }) async {
 
+    if (email.isEmpty || password.isEmpty) {
       Get.snackbar(
         "Missing Fields",
         "Please enter your email and password",
@@ -22,10 +23,13 @@ class LoginController extends GetxController {
         backgroundColor: Colors.amber[100],
         colorText: Colors.brown[800],
       );
+
       return {
-      "success": false,
-      "message": "Please enter your email and password"};
+        "success": false,
+        "message": "Missing fields"
+      };
     }
+  
     if (password.length < 6) {
       Get.snackbar(
         "Weak Password",
@@ -34,7 +38,11 @@ class LoginController extends GetxController {
         backgroundColor: Colors.amber[100],
         colorText: Colors.brown[800],
       );
-      return {"success": false, "message": "Password must be at least 6 characters"};
+
+      return {
+        "success": false,
+        "message": "Weak password"
+      };
     }
 
     isLoading.value = true;
@@ -43,27 +51,24 @@ class LoginController extends GetxController {
       email: email,
       password: password,
     );
+  
     isLoading.value = false;
 
     if (response["success"] == true) {
-      Get.find<RoleSelectController>().setUser(response["user"]);
+      if (Get.isRegistered<RoleSelectController>()) {
+        Get.find<RoleSelectController>().setUser(response["user"]);
+      }
 
       return {
-        "success":true,
+        "success": true,
         "message": "Login successful",
-      };
-    } else {
-      Get.snackbar(
-        "Login Failed",
-        response["message"],
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red[100],
-        colorText: Colors.red[800],
-      );
-      return {
-        "success": false,
-        "message": response["message"]
-      };
+        "user": response["user"],
+     };
     }
+
+    return {
+      "success": false,
+      "message": response["message"] ?? "Login failed"
+    };
   }
 }

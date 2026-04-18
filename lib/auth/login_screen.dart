@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
     setState(() => _loading = false);
 
-     if ((result["status"] ?? false) == true) {
+     if (result["success"] == true) {
       Navigator.pushReplacementNamed(context, '/${widget.role}/home');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

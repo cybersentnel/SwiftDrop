@@ -9,13 +9,16 @@ class SignupController extends GetxController {
     required String password,
     required String role,  //'customer' or 'driver'
   }) async {
-    return DatabaseService.register(
+    final response = await DatabaseService.register(
       name: name,
       email: email,
       password: password,
       role: role,
     );
+
+    return response;
   }
+
 
   Future login(String email, String password) async {
     final response = await DatabaseService.login(
@@ -23,7 +26,8 @@ class SignupController extends GetxController {
       password: password,
     );
 
+
     return response['success'] == true;
 
   }
-}
+  }
