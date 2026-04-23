@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 class AppConstants {
-  static const String baseUrl = 'https://192.168.9.220/swiftdrop';
+  static const String baseUrl = 'http://10.7.28.210/swiftdrop_api';
 }
  const String currencySymbol = 'Ksh';
 

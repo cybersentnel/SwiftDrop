@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_mekitakizi/core/constants/app_constants.dart';
 
 class DatabaseService {
-  static const String baseUrl = "http://10.211.199.28/swiftdrop";
+  static const String baseUrl = AppConstants.baseUrl;
   static const Duration timeout = Duration(seconds: 10);
 
   static Future<Map<String, dynamic>> login({
@@ -20,13 +22,15 @@ class DatabaseService {
     required String email,
     required String password,
     required String name,
-    required String role,
+    required String role, 
+    required String phone,
   }) async {
     return _post("register.php", {
       "email": email,
       "password": password,
       "name": name,
       "role": role,
+      "phone": phone,
     });
   }
 
@@ -35,14 +39,8 @@ class DatabaseService {
     int? id,
   }) async {
     final query = <String, String>{};
-
-    if (category != null && category.isNotEmpty) {
-      query["category"] = category;
-    }
-    if (id != null) {
-      query["id"] = id.toString();
-    }
-
+    if (category != null && category.isNotEmpty) query["category"] = category;
+    if (id != null) query["id"] = id.toString();
     return _get("get_restaurants.php", query: query);
   }
 
@@ -97,10 +95,10 @@ class DatabaseService {
     int? amount,
   }) async {
     return _post("update_order_status.php", {
-      "order_id": orderId,
+      "order_id": orderId.toString(),
       "status": status,
-      if (driverId != null) "driver_id": driverId,
-      if (amount != null) "amount": amount,
+      if (driverId != null) "driver_id": driverId.toString(),
+      if (amount != null) "amount": amount.toString(),
     });
   }
 
@@ -113,8 +111,8 @@ class DatabaseService {
     required int driverId,
   }) async {
     return _post("accept_order.php", {
-      "order_id": orderId,
-      "driver_id": driverId,
+      "order_id": orderId.toString(),
+      "driver_id": driverId.toString(),
     });
   }
 
@@ -129,34 +127,28 @@ class DatabaseService {
   }
 
   static Future<Map<String, dynamic>> _get(
-    String endpoint, {
-    Map<String, String>? query,
-  }) async {
+      String endpoint, {
+        Map<String, String>? query,
+      }) async {
     final uri = Uri.parse("$baseUrl/$endpoint");
+    final finalUri = (query == null || query.isEmpty)
+        ? uri
+        : uri.replace(queryParameters: query);
+    final response = await http.get(finalUri).timeout(timeout);
+    return _decode(response.body);
+  }
 
-  final finalUri = (query == null || query.isEmpty)
-      ? uri
-      : uri.replace(queryParameters: query);
-
-  final response = await http.get(finalUri).timeout(timeout);
-
-  return _decode(response.body);
-}
   static Future<Map<String, dynamic>> _post(
-    String endpoint,
-    Map<String, dynamic> body,
-  ) async {
+      String endpoint,
+      Map<String, dynamic> body,
+      ) async {
     final uri = Uri.parse("$baseUrl/$endpoint");
-
+    if (kDebugMode) debugPrint("POST $uri — ${jsonEncode(body)}");
     final response = await http.post(
-          uri,
-          headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(body),
-        )
-        .timeout(timeout);
-
+      uri,
+      body: body.map((key, value) => MapEntry(key, value.toString())),
+      ).timeout(timeout);
+    if (kDebugMode) debugPrint("RESPONSE: ${response.body}");
     return _decode(response.body);
   }
 

@@ -1,14 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
 import 'package:flutter_mekitakizi/views/role_select_screen.dart';
-import 'package:flutter_mekitakizi/auth/login_screen.dart';
 import 'package:flutter_mekitakizi/controllers/signup_controller.dart';
+import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   final String role;
 
-  // ignore: prefer_const_constructors_in_immutables
-  SignupScreen({super.key, required this.role});
+  const SignupScreen({super.key, required this.role});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -16,51 +16,31 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameCtrl = TextEditingController();
-  final TextEditingController _emailCtrl = TextEditingController();
-  final TextEditingController _passwordCtrl = TextEditingController();
-  final TextEditingController _confirmCtrl = TextEditingController();
+  TextEditingController nameCtrl = TextEditingController();
+  TextEditingController phoneCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController passwordCtrl = TextEditingController();
+  final TextEditingController confirmCtrl = TextEditingController();
   final SignupController _controller = SignupController();
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
-  bool _loading = false;
-  bool _agreeToTerms = false;
+  bool loading = false;
 
-  @override
-  void dispose() {
-    _nameCtrl.dispose();
-    _emailCtrl.dispose();
-    _passwordCtrl.dispose();
-    _confirmCtrl.dispose();
-    super.dispose();
-  }
-
-  Future<void> _signup() async {
+  Future<void> signup() async {
     if (!_formKey.currentState!.validate()) return;
 
-    if (!_agreeToTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Please agree to the Terms & Privacy Policy'),
-          backgroundColor: AppTheme.danger,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-      );
-      return;
-    }
-
-    setState(() => _loading = true);
+    setState(() => loading = true);
 
     final Map<String, dynamic> result = await _controller.register(
-      name: _nameCtrl.text,
-      email: _emailCtrl.text,
-      password: _passwordCtrl.text,
+      name: nameCtrl.text,
+      phone: phoneCtrl.text,
+      email: emailCtrl.text,
+      password: passwordCtrl.text,
       role: widget.role,
     );
 
     if (!mounted) return;
-    setState(() => _loading = false);
+    setState(() => loading = false);
 
     if (result['success'] == true) {
       Navigator.pushReplacement(
@@ -82,6 +62,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24),
@@ -109,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 28),
 
                 Text(
-                  'Create account ',
+                  'Create account',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w900,
@@ -129,7 +110,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 _FieldLabel('Full Name'),
                 SizedBox(height: 8),
                 TextFormField(
-                  controller: _nameCtrl,
+                  controller: nameCtrl,
                   textCapitalization: TextCapitalization.words,
                   style: TextStyle(color: AppTheme.textPrimary),
                   decoration: InputDecoration(
@@ -145,10 +126,30 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 SizedBox(height: 16),
 
+                // Phone Number field
+                _FieldLabel('Phone Number'),
+                SizedBox(height: 8),
+                TextFormField(
+                  controller: phoneCtrl,
+                  keyboardType: TextInputType.phone,
+                  style: TextStyle(color: AppTheme.textPrimary),
+                  decoration: InputDecoration(
+                    hintText: 'Enter your phone number',
+                    prefixIcon: Icon(Icons.phone_outlined,
+                        size: 20, color: AppTheme.textSecondary),
+                  ),
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) return 'Phone is required';
+                    if (v.trim().length < 8) return 'Phone is too short';
+                    return null;
+                  },
+                ),
+                SizedBox(height: 16),
+
                 _FieldLabel('Email'),
                 SizedBox(height: 8),
                 TextFormField(
-                  controller: _emailCtrl,
+                  controller: emailCtrl,
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(color: AppTheme.textPrimary),
                   decoration: InputDecoration(
@@ -164,16 +165,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 SizedBox(height: 16),
 
-                // Password
                 _FieldLabel('Password'),
                 SizedBox(height: 8),
                 TextFormField(
-                  controller: _passwordCtrl,
+                  controller: passwordCtrl,
                   obscureText: _obscurePassword,
                   style: TextStyle(color: AppTheme.textPrimary),
                   onChanged: (_) => setState(() {}),
                   decoration: InputDecoration(
-                    hintText: 'Create a password',
+                    hintText: 'Enter your password',
                     prefixIcon: Icon(Icons.lock_outline,
                         size: 20, color: AppTheme.textSecondary),
                     suffixIcon: IconButton(
@@ -197,14 +197,14 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 8),
 
                 // Password strength
-                _PasswordStrength(password: _passwordCtrl.text),
+                _PasswordStrength(password: passwordCtrl.text),
                 SizedBox(height: 16),
 
                 // Confirm password
                 _FieldLabel('Confirm Password'),
                 SizedBox(height: 8),
                 TextFormField(
-                  controller: _confirmCtrl,
+                  controller: confirmCtrl,
                   obscureText: _obscureConfirm,
                   style: TextStyle(color: AppTheme.textPrimary),
                   decoration: InputDecoration(
@@ -225,100 +225,60 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   validator: (v) {
                     if (v == null || v.isEmpty) return 'Please confirm your password';
-                    if (v != _passwordCtrl.text) return 'Passwords do not match';
+                    if (v != passwordCtrl.text) return 'Passwords do not match';
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
-
-                // Terms checkbox
-                GestureDetector(
-                  onTap: () => setState(() => _agreeToTerms = !_agreeToTerms),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        width: 22,
-                        height: 22,
-                        decoration: BoxDecoration(
-                          color: _agreeToTerms ? AppTheme.primary : Colors.transparent,
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                            color: _agreeToTerms ? AppTheme.primary : AppTheme.border,
-                            width: 2,
-                          ),
-                        ),
-                        child: _agreeToTerms
-                            ? Icon(Icons.check, color: Colors.white, size: 14)
-                            : null,
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                              color: AppTheme.textSecondary,
-                              fontSize: 13,
-                              height: 1.5,
-                            ),
-                            // ignore: prefer_const_literals_to_create_immutables
-                            children: [
-                              TextSpan(text: 'I agree to the '),
-                              TextSpan(
-                                text: 'Terms of Service',
-                                style: TextStyle(
-                                  color: AppTheme.primary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              TextSpan(text: ' and '),
-                              TextSpan(
-                                text: 'Privacy Policy',
-                                style: TextStyle(
-                                  color: AppTheme.primary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(height: 32),
 
-                // Create account button
+                // SIGNUP BUTTON
                 SizedBox(
                   width: double.infinity,
+                  height: 54,
                   child: ElevatedButton(
-                    onPressed: _loading ? null : _signup,
-                    child: _loading
+                    onPressed: loading ? null : signup,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primary,
+                      disabledBackgroundColor: AppTheme.primary.withValues(alpha: 0.5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: loading
                         ? SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                          strokeWidth: 2.5, color: Colors.white),
-                    )
-                        : Text('Create Account'),
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : Text(
+                            'Create Account',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                   ),
                 ),
                 SizedBox(height: 24),
 
-                // Login link
+                // Sign in link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Already have an account? ',
                       style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
                     ),
                     GestureDetector(
                       onTap: () => Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute
-                          (builder: (_) => LoginScreen(role: widget.role)),
+                        MaterialPageRoute(
+                          builder: (_) => LoginScreen(role: widget.role),
+                        ),
                       ),
                       child: Text(
                         'Sign In',
@@ -331,7 +291,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: 40),
               ],
             ),
           ),
@@ -347,13 +307,13 @@ class _FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-    text,
-    style: TextStyle(
-      color: AppTheme.textSecondary,
-      fontSize: 13,
-      fontWeight: FontWeight.w600,
-    ),
-  );
+        text,
+        style: TextStyle(
+          color: AppTheme.textSecondary,
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+        ),
+      );
 }
 
 class _PasswordStrength extends StatelessWidget {
@@ -373,22 +333,33 @@ class _PasswordStrength extends StatelessWidget {
 
   String get _label {
     switch (_strength) {
-      case 0: return '';
-      case 1: return 'Weak';
-      case 2: return 'Fair';
-      case 3: return 'Good';
-      case 4: return 'Strong';
-      default: return 'Very Strong';
+      case 0:
+        return '';
+      case 1:
+        return 'Weak';
+      case 2:
+        return 'Fair';
+      case 3:
+        return 'Good';
+      case 4:
+        return 'Strong';
+      default:
+        return 'Very Strong';
     }
   }
 
   Color get _color {
     switch (_strength) {
-      case 1: return AppTheme.danger;
-      case 2: return AppTheme.secondary;
-      case 3: return AppTheme.accent;
-      case 4: return AppTheme.success;
-      default: return AppTheme.success;
+      case 1:
+        return AppTheme.danger;
+      case 2:
+        return AppTheme.secondary;
+      case 3:
+        return AppTheme.accent;
+      case 4:
+        return AppTheme.success;
+      default:
+        return AppTheme.success;
     }
   }
 
@@ -397,20 +368,24 @@ class _PasswordStrength extends StatelessWidget {
     if (password.isEmpty) return SizedBox.shrink();
     return Row(children: [
       Expanded(
-        child: Row(children: List.generate(5, (i) => Expanded(
-          child: Container(
-            margin: EdgeInsets.only(right: i < 4 ? 4 : 0),
-            height: 4,
-            decoration: BoxDecoration(
-              color: i < _strength ? _color : AppTheme.border,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-        ))),
+        child: Row(
+            children: List.generate(
+                5,
+                (i) => Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: i < 4 ? 4 : 0),
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: i < _strength ? _color : AppTheme.border,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                    ))),
       ),
       const SizedBox(width: 10),
-      Text(_label, style: TextStyle(
-          color: _color, fontSize: 12, fontWeight: FontWeight.w600)),
+      Text(_label,
+          style: TextStyle(
+              color: _color, fontSize: 12, fontWeight: FontWeight.w600)),
     ]);
   }
 }

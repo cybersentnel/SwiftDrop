@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
+import 'package:flutter_mekitakizi/views/home_screen.dart';
 import 'package:flutter_mekitakizi/views/role_select_screen.dart';
 
 void main() {
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.dark,
       debugShowCheckedModeBanner: false,
       home: const RoleSelectScreen(),
+      routes: {
+        '/customer/home': (context) => const HomeScreen(),
+      },
     );
   }
 }
