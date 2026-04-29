@@ -169,7 +169,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               ),
             ),
           ]),
-          
 
           SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
@@ -194,7 +193,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     );
   }
 }
-
 class StarRating extends StatelessWidget {
     final double rating;
 

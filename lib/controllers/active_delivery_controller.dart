@@ -8,8 +8,8 @@ class ActiveDeliveryController {
       orderId: orderId,
       status: 'on_the_way',
     );
-  }
-
+}
+  
   Future<Map<String, dynamic>> confirmDelivery({
     required int orderId,
     required int driverId,

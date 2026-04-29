@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
 import 'package:flutter_mekitakizi/auth/signup_screen.dart';
 import 'package:flutter_mekitakizi/controllers/login_controller.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   final String role;
@@ -29,53 +28,37 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> login() async {
-    Uri.parse('http://10.7.20.162/swiftdrop_api/login.php');
+  Future<void> _login() async {
+    if (!_formKey.currentState!.validate()) return;
 
-    try {
-      final result = await _controller.login(
-        email: _emailCtrl.text,
-        password: _passwordCtrl.text,
-      ).timeout(
-        Duration(seconds: 15),
-        onTimeout: () {
-          return {
-            "success": false,
-            "message": "Connection timeout. Please check your internet and try again."
-          };
-        },
+    setState(() => _loading = true);
+
+    final result = await _controller.login(
+      email: _emailCtrl.text,
+      password: _passwordCtrl.text,
+    ).timeout(const Duration(seconds: 10));
+
+    if (!mounted) return;
+    setState(() => _loading = false);
+
+     if (result["success"] == true) {
+      final route = '/${widget.role}/home';
+      debugPrint("Navigating to: $route");
+
+Navigator.pushReplacementNamed(context, route);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result["message"] ?? 'Login failed'),
+          backgroundColor: AppTheme.danger,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),        ),
+      ),
       );
-
-      if (!mounted) return;
-      setState(() => _loading = false);
-
-      if ((result["success"] ?? false) == true) {
-        Navigator.pushReplacementNamed(context, '/${widget.role}/home');
-      } else {
-        _showError(result["message"] ?.toString() ?? 'Login failed');
-      }
-    } catch (e) {
-      if (!mounted) return;
-      setState(() => _loading = false);
-
-      _showError('Error $e');
     }
   }
-
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: AppTheme.danger,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        duration: Duration(seconds: 4),
-      ),
-    );
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 32),
+              SizedBox(height: 32),
 
                 Row(children: [
                   Container(
@@ -172,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppTheme.textSecondary,
                       ),
                       onPressed: () => setState(
-                              () => _obscurePassword = !_obscurePassword),
+                          () => _obscurePassword = !_obscurePassword),
                     ),
                   ),
                   validator: (v) {
@@ -201,37 +184,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 SizedBox(
                   width: double.infinity,
-                  height: 54,
                   child: ElevatedButton(
-                    onPressed: _loading ? null : login,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primary,
-                      disabledBackgroundColor: AppTheme.primary.withValues(alpha: 0.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                    onPressed: _loading ? null : _login,
                     child: _loading
                         ? SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                    )
-                        : Text(
-                      'Log In',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                color: Colors.white),
+                          )
+                        : Text('Log In'),
                   ),
                 ),
                 SizedBox(height: 24),
 
-                const Row(children: [
+                // ignore: prefer_const_literals_to_create_immutables
+                Row(children: [
                   Expanded(child: Divider(color: AppTheme.border)),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12),
@@ -271,7 +240,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 40),
               ],
             ),
           ),
@@ -287,11 +255,11 @@ class _FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-    text,
-    style: TextStyle(
-      color: AppTheme.textSecondary,
-      fontSize: 13,
-      fontWeight: FontWeight.w600,
-    ),
-  );
+        text,
+        style: TextStyle(
+          color: AppTheme.textSecondary,
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+        ),
+      );
 }

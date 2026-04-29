@@ -396,7 +396,7 @@ class _MapPainter extends CustomPainter {
         border: Border.all(color: Colors.green),
       ),
       child: Text(
-        '\$${amount.toStringAsFixed(2)}',
+        'Ksh${amount.toStringAsFixed(2)}',
         style: const TextStyle(
           color: Colors.green,
           fontWeight: FontWeight.bold,

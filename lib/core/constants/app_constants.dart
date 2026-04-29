@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 class AppConstants {
-  static const String baseUrl = 'http://10.7.28.210/swiftdrop_api';
+  static const String baseUrl = 'http://localhost/swiftdrop_api';
+  static const Duration timeout = Duration(seconds: 5);
 }
  const String currencySymbol = 'Ksh';
 
@@ -102,11 +103,11 @@ class SampleData {
       name: 'Flame Burger Co.',
       category: 'Burgers',
       imageEmoji: '🍔',
-      address: '12 Oak Street',
+      address: 'Mlolongo',
       rating: 4.8,
-      deliveryFee: 1.99,
-      distanceKm: 0.8,
-      deliveryMins: 20,
+      deliveryFee: 100,
+      distanceKm: 8,
+      deliveryMins: 50,
       isFeatured: true,
       menu: [
         MenuItem(id: 'm1', name: 'Classic Smash Burger', description: 'Double smash patty, American cheese, pickles, special sauce', category: 'Burgers', price: 300, emoji: '🍔', isPopular: true),
@@ -123,10 +124,10 @@ class SampleData {
       name: 'Tokyo Sushi Bar',
       category: 'Sushi',
       imageEmoji: '🍣',
-      address: '47 River Lane',
+      address: 'Lukenya',
       rating: 4.9,
       deliveryFee: 100,
-      distanceKm: 1.4,
+      distanceKm: 10,
       deliveryMins: 30,
       isFeatured: true,
       menu: [
@@ -145,7 +146,7 @@ class SampleData {
       address: '88 Curry Road',
       rating: 4.7,
       deliveryFee: 100,
-      distanceKm: 2.1,
+      distanceKm: 21,
       deliveryMins: 35,
       menu: [
         MenuItem(id: 'm13', name: 'Butter Chicken', description: 'Tender chicken in rich tomato cream sauce', category: 'Mains', price: 400, emoji: '🍛', isPopular: true),
@@ -159,10 +160,10 @@ class SampleData {
       name: 'Slice & Co.',
       category: 'Pizza',
       imageEmoji: '🍕',
-      address: '5 Marina Blvd',
+      address: 'Sterling',
       rating: 4.5,
       deliveryFee: 100,
-      distanceKm: 0.5,
+      distanceKm: 5,
       deliveryMins: 25,
       menu: [
         MenuItem(id: 'm17', name: 'Margherita', description: 'San Marzano tomato, buffalo mozzarella, basil', category: 'Pizzas', price: 1400, emoji: '🍕', isPopular: true),
@@ -176,10 +177,10 @@ class SampleData {
       name: 'The Green Bowl',
       category: 'Healthy',
       imageEmoji: '🥗',
-      address: '21 Health Ave',
+      address: 'Neema',
       rating: 4.6,
       deliveryFee: 100,
-      distanceKm: 1.8,
+      distanceKm: 8,
       deliveryMins: 20,
       menu: [
         MenuItem(id: 'm21', name: 'Acai Power Bowl', description: 'Acai, granola, banana, honey, coconut flakes', category: 'Bowls', price: 200, emoji: '🫐', isPopular: true),

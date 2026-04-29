@@ -143,11 +143,14 @@ class DatabaseService {
       Map<String, dynamic> body,
       ) async {
     final uri = Uri.parse("$baseUrl/$endpoint");
+
     if (kDebugMode) debugPrint("POST $uri — ${jsonEncode(body)}");
+
     final response = await http.post(
       uri,
-      body: body.map((key, value) => MapEntry(key, value.toString())),
-      ).timeout(timeout);
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(body),
+      ).timeout(Duration(seconds: 10));
     if (kDebugMode) debugPrint("RESPONSE: ${response.body}");
     return _decode(response.body);
   }

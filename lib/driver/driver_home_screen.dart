@@ -426,10 +426,10 @@ class _DriverProfileTab extends StatelessWidget {
                   color: AppTheme.success.withValues(alpha: 0.4), width: 2),
             ),
             child: const Center(
-                child: Text('🧑', style: TextStyle(fontSize: 36))),
+                child: Text('🥷🏽', style: TextStyle(fontSize: 36))),
           ),
           SizedBox(height: 12),
-          Text('Alex Rivera', style: TextStyle(
+          Text('Felix Reyian', style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.w800,
               color: AppTheme.textPrimary)),
            Text('Driver since March 2023',

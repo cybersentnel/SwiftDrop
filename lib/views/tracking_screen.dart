@@ -106,7 +106,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
               right: 16,
               child: Container(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
                   color: AppTheme.bg.withValues(alpha: 0.9),
                   borderRadius: BorderRadius.circular(24),
@@ -254,7 +254,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Alex Rivera',
+                            'Felix Rayez',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: AppTheme.textPrimary,
@@ -353,17 +353,16 @@ class _MapPainter extends CustomPainter {
 }
 class StatusChip extends StatelessWidget {
   final String status;
-
   const StatusChip({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
     final Color color = switch (status) {
-      'Placed' => AppTheme.textSecondary,
-      'Preparing' => AppTheme.secondary,
+      'Placed'     => AppTheme.textSecondary,
+      'Preparing'  => AppTheme.secondary,
       'On the Way' => AppTheme.primary,
-      'Delivered' => AppTheme.success,
-      _ => AppTheme.textMuted,
+      'Delivered'  => AppTheme.success,
+      _            => AppTheme.textMuted,
     };
 
     return Container(

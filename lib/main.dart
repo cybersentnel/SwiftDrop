@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mekitakizi/core/theme/theme.dart';
+import 'package:flutter_mekitakizi/driver/driver_home_screen.dart';
 import 'package:flutter_mekitakizi/views/home_screen.dart';
 import 'package:flutter_mekitakizi/views/role_select_screen.dart';
 
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const RoleSelectScreen(),
       routes: {
-        '/customer/home': (context) => const HomeScreen(),
+        '/customer/home': (context) => HomeScreen(),
+        '/driver/home': (context) => const DriverHomeScreen(),
       },
     );
   }
